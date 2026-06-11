@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AuthGatewayApplication {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		System.setProperty("debug", System.getProperty("debug", "false"));
 		SpringApplication.run(AuthGatewayApplication.class, args);
 	}
 
