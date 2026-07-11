@@ -23,10 +23,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginPayload payload) {
+    public ResponseEntity<String> login(@RequestBody LoginPayload payload) {
 
         var user = service.authenticateUser(payload);
-        var entity = new ResponseEntity<User>(user, HttpStatus.CREATED);
+        var entity = new ResponseEntity<String>(user, HttpStatus.BAD_REQUEST);
         return entity;
     }
 

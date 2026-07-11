@@ -10,7 +10,12 @@ public class UserService {
     UserRepository repo; 
 
     public User createUser(User user) {
+
         repo.save(user);
         return user;
     }
+
+    // private bool validateUser() {
+
+    // }
 }
