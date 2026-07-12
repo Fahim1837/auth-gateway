@@ -1,7 +1,6 @@
 package com.fahim1837.auth_gateway.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +12,8 @@ import com.fahim1837.auth_gateway.user.LoginService;
 import com.fahim1837.auth_gateway.user.User;
 import com.fahim1837.auth_gateway.user.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
@@ -23,11 +24,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginPayload payload) {
+    public ResponseEntity<String> login(@Valid @RequestBody LoginPayload payload) {
 
         var user = service.authenticateUser(payload);
-        var entity = new ResponseEntity<String>(user, HttpStatus.BAD_REQUEST);
-        return entity;
+        return user;
     }
 
     @PostMapping("/register") 
