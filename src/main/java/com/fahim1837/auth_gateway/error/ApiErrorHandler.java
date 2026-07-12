@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -37,8 +38,16 @@ public class ApiErrorHandler extends ResponseEntityExceptionHandler{
             errorObject.put(element.getField(), element.getDefaultMessage());
         }
         response.setError(errorObject);
+        return buildResponseEntity(response);
+    }
 
-        var entity = new ResponseEntity<Object>(response, HttpStatus.valueOf(status.value()));
-        return entity;
+    @ExceptionHandler(UnauthorizedException.class)
+    private ResponseEntity<Object> handleUnauthorizedException (UnauthorizedException ex) {
+        response = new ApiResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        return buildResponseEntity(response);
+    }
+
+    private ResponseEntity<Object> buildResponseEntity (ApiResponse apiResponse) {
+        return new ResponseEntity<Object>(apiResponse, HttpStatus.valueOf(apiResponse.getStatus()));
     }
 }
